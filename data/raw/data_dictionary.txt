@@ -1,0 +1,8 @@
+
+
+
+4. Pergunta_4 (P4) = ~~Em que país você vive hoje?~~
+
+
+
+Além dessas, derivamos algumas outras colunas:

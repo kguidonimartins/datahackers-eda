@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Karlo Guidoni Martins" />
+
+
+<title>EDA da pesquisa Data Hackers</title>
+
+<script src="site_libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Análise exploratória básica da pesquisa Data Hackers</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">EDA da pesquisa Data Hackers</h1>
+<h4 class="author">Karlo Guidoni Martins</h4>
+
+</div>
+
+
+<div id="instalação-dos-pacotes" class="section level1">
+<h1>Instalação dos pacotes</h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="cf">if</span> (<span class="op">!</span><span class="kw">require</span>(<span class="st">&quot;tidyverse&quot;</span>)) <span class="kw">install.packages</span>(<span class="st">&quot;tidyverse&quot;</span>)</span></code></pre></div>
+<pre><code>## Loading required package: tidyverse</code></pre>
+<pre><code>## ── Attaching packages ───────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.2     ✓ purrr   0.3.4
+## ✓ tibble  3.0.3     ✓ dplyr   1.0.1
+## ✓ tidyr   1.1.1     ✓ stringr 1.4.0
+## ✓ readr   1.3.1     ✓ forcats 0.5.0</code></pre>
+<pre><code>## ── Conflicts ──────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="cf">if</span> (<span class="op">!</span><span class="kw">require</span>(<span class="st">&quot;here&quot;</span>)) <span class="kw">install.packages</span>(<span class="st">&quot;here&quot;</span>)</span></code></pre></div>
+<pre><code>## Loading required package: here</code></pre>
+<pre><code>## here() starts at /home/karlo/GoogleDrive2/git-repos/datahackers-eda</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a><span class="cf">if</span> (<span class="op">!</span><span class="kw">require</span>(<span class="st">&quot;janitor&quot;</span>)) <span class="kw">install.packages</span>(<span class="st">&quot;janitor&quot;</span>)</span></code></pre></div>
+<pre><code>## Loading required package: janitor</code></pre>
+<pre><code>## 
+## Attaching package: &#39;janitor&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     chisq.test, fisher.test</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a><span class="kw">theme_set</span>(<span class="kw">theme_light</span>(<span class="dt">base_size =</span> <span class="dv">20</span>))</span></code></pre></div>
+</div>
+<div id="lendo-e-limpando-dados" class="section level1">
+<h1>Lendo e limpando dados</h1>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a>df &lt;-</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">read_csv</span>(</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true"></a>    <span class="kw">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;raw&quot;</span>, <span class="st">&quot;datahackers-survey-2019-anonymous-responses.csv&quot;</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true"></a>    ) <span class="op">%&gt;%</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true"></a><span class="st">  </span><span class="kw">clean_names</span>() <span class="op">%&gt;%</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true"></a><span class="st">  </span><span class="co"># colunas com respostas 0/1 serão Não/Sim</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true"></a><span class="st">  </span><span class="kw">mutate_at</span>(</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true"></a>    <span class="kw">vars</span>(</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true"></a>      <span class="kw">contains</span>(</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true"></a>        <span class="kw">c</span>(<span class="st">&quot;p3_&quot;</span>, <span class="st">&quot;p6_&quot;</span>, <span class="st">&quot;p13_&quot;</span>, <span class="st">&quot;p19_&quot;</span>, <span class="st">&quot;p29_&quot;</span>, <span class="st">&quot;p36_&quot;</span>)</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true"></a>      )</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true"></a>    ),</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true"></a>    <span class="kw">funs</span>(</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true"></a>      <span class="kw">case_when</span>(</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true"></a>        . <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">~</span><span class="st"> &quot;Sim&quot;</span>,</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true"></a>        . <span class="op">==</span><span class="st"> </span><span class="dv">0</span> <span class="op">~</span><span class="st"> &quot;Não&quot;</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true"></a>      )</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true"></a>    )</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true"></a>  )</span></code></pre></div>
+<pre><code>## Parsed with column specification:
+## cols(
+##   .default = col_double(),
+##   `(&#39;P0&#39;, &#39;id&#39;)` = col_character(),
+##   `(&#39;P2&#39;, &#39;gender&#39;)` = col_character(),
+##   `(&#39;P5&#39;, &#39;living_state&#39;)` = col_character(),
+##   `(&#39;P8&#39;, &#39;degreee_level&#39;)` = col_character(),
+##   `(&#39;P10&#39;, &#39;job_situation&#39;)` = col_character(),
+##   `(&#39;P12&#39;, &#39;workers_number&#39;)` = col_character(),
+##   `(&#39;P16&#39;, &#39;salary_range&#39;)` = col_character(),
+##   `(&#39;P17&#39;, &#39;time_experience_data_science&#39;)` = col_character(),
+##   `(&#39;P18&#39;, &#39;time_experience_before&#39;)` = col_character(),
+##   `(&#39;P22&#39;, &#39;most_used_proggraming_languages&#39;)` = col_character(),
+##   `(&#39;P32&#39;, &#39;prefered_data_hackers_initiative&#39;)` = col_character(),
+##   `(&#39;P35&#39;, &#39;data_science_plataforms_preference&#39;)` = col_character(),
+##   `(&#39;P35&#39;, &#39;other&#39;)` = col_character(),
+##   `(&#39;D1&#39;, &#39;living_macroregion&#39;)` = col_character(),
+##   `(&#39;D2&#39;, &#39;origin_macroregion&#39;)` = col_character(),
+##   `(&#39;D3&#39;, &#39;anonymized_degree_area&#39;)` = col_character(),
+##   `(&#39;D4&#39;, &#39;anonymized_market_sector&#39;)` = col_character(),
+##   `(&#39;D5&#39;, &#39;anonymized_manager_level&#39;)` = col_character(),
+##   `(&#39;D6&#39;, &#39;anonymized_role&#39;)` = col_character()
+## )</code></pre>
+<pre><code>## See spec(...) for full column specifications.</code></pre>
+<pre><code>## Warning: `funs()` is deprecated as of dplyr 0.8.0.
+## Please use a list of either functions or lambdas: 
+## 
+##   # Simple named list: 
+##   list(mean = mean, median = median)
+## 
+##   # Auto named with `tibble::lst()`: 
+##   tibble::lst(mean, median)
+## 
+##   # Using lambdas
+##   list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_warnings()` to see where this warning was generated.</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">names</span>() <span class="op">%&gt;%</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">as.data.frame</span>()</span></code></pre></div>
+<pre><code>##                                            .
+## 1                                      p0_id
+## 2                                     p1_age
+## 3                                  p2_gender
+## 4                        p3_living_in_brasil
+## 5                            p5_living_state
+## 6                       p6_born_or_graduated
+## 7                           p8_degreee_level
+## 8                          p10_job_situation
+## 9                         p12_workers_number
+## 10                               p13_manager
+## 11                          p16_salary_range
+## 12          p17_time_experience_data_science
+## 13                p18_time_experience_before
+## 14          p19_is_data_science_professional
+## 15                     p20_linear_regression
+## 16                   p20_logistic_regression
+## 17                                  p20_glms
+## 18                         p20_decision_tree
+## 19                         p20_random_forest
+## 20                       p20_neural_networks
+## 21                    p20_bayesian_inference
+## 22                              p20_ensemble
+## 23                                  p20_svms
+## 24                                  p20_cnns
+## 25                                  p20_rnns
+## 26                                  p20_hmms
+## 27                                  p20_gans
+## 28                         p20_markov_chains
+## 29                                   p20_nlp
+## 30             p20_gradient_boosted_machines
+## 31                      p20_cluster_analysis
+## 32                     p20_survival_analysis
+## 33            p20_longitudinal_data_analysis
+## 34                        p20_joint_analysis
+## 35                     p20_no_listed_methods
+## 36                                   p21_sql
+## 37                                     p21_r
+## 38                                p21_python
+## 39                          p21_c_c_c_number
+## 40                                p21_dotnet
+## 41                                  p21_java
+## 42                                 p21_julia
+## 43                             p21_sas_stata
+## 44                      p21_visual_basic_vba
+## 45                                 p21_scala
+## 46                                p21_matlab
+## 47                                   p21_php
+## 48                   p21_no_listed_languages
+## 49       p22_most_used_proggraming_languages
+## 50                                   p23_sql
+## 51                                 p23_nosql
+## 52                                p23_images
+## 53                                   p23_nlp
+## 54                                p23_videos
+## 55                                p23_sheets
+## 56                                 p23_other
+## 57                                   p24_sql
+## 58                                 p24_nosql
+## 59                               p24_imagens
+## 60                                   p24_nlp
+## 61                                p24_videos
+## 62                             p24_planilhas
+## 63                                 p24_other
+## 64                                   p25_aws
+## 65                                   p25_gcp
+## 66                                 p25_azure
+## 67                                   p25_ibm
+## 68                    p25_on_premise_servers
+## 69                         p25_cloud_propria
+## 70                                 p25_other
+## 71                                 p26_mysql
+## 72                                p26_oracle
+## 73                            p26_sql_server
+## 74                                p26_aurora
+## 75                              p26_dynamodb
+## 76                               p26_coachdb
+## 77                             p26_cassandra
+## 78                               p26_mongodb
+## 79                               p26_mariadb
+## 80                               p26_datomic
+## 81                                    p26_s3
+## 82                            p26_postgresql
+## 83                          p26_elaticsearch
+## 84                                   p26_db2
+## 85                             p26_ms_access
+## 86                                p26_sqlite
+## 87                                p26_sybase
+## 88                              p26_firebase
+## 89                               p26_vertica
+## 90                                 p26_redis
+## 91                                 p26_neo4j
+## 92                       p26_google_bigtable
+## 93                                 p26_hbase
+## 94                                 p26_other
+## 95                     p27_microsoft_powerbi
+## 96                  p27_qlik_view_qlik_sense
+## 97                               p27_tableau
+## 98                              p27_metabase
+## 99                              p27_superset
+## 100                               p27_redash
+## 101                        p27_microstrategy
+## 102                 p27_ibm_analytics_cognos
+## 103                 p27_sap_business_objects
+## 104         p27_oracle_business_intelligence
+## 105                                p27_birst
+## 106                               p27_looker
+## 107                   p27_google_data_studio
+## 108                   p27_only_excel_gsheets
+## 109                   p27_no_bi_tool_at_work
+## 110                                p27_other
+## 111                p28_sql_stored_procedures
+## 112                       p28_apache_airflow
+## 113                                p28_luigi
+## 114                             p28_aws_glue
+## 115                               p28_talend
+## 116                              p28_pentaho
+## 117                              p28_alteryx
+## 118               p28_oracle_data_integrator
+## 119                       p28_ibm_data_stage
+## 120                           p28_sap_bw_etl
+## 121 p28_siss_sql_server_integration_services
+## 122                                p28_other
+## 123                  p29_have_data_warehouse
+## 124                      p30_google_bigquery
+## 125                         p30_aws_redshift
+## 126                            p30_snowflake
+## 127                               p30_oracle
+## 128                       p30_postgres_mysql
+## 129                                  p30_ibm
+## 130                             p30_teradata
+## 131                      p30_microsoft_azure
+## 132                          p30_do_not_know
+## 133                                p30_other
+## 134                    p31_data_hackers_blog
+## 135                 p31_data_hackers_podcast
+## 136                    p31_weekly_newsletter
+## 137                        p31_slack_channel
+## 138                p31_data_hackers_bootcamp
+## 139             p31_do_not_know_data_hackers
+## 140     p32_prefered_data_hackers_initiative
+## 141                      p33_telegram_groups
+## 142                      p33_whatsapp_groups
+## 143                     p33_youtube_channels
+## 144                p33_other_brasilian_blogs
+## 145                 p33_other_slack_channels
+## 146                              p33_twitter
+## 147                         p33_abroad_blogs
+## 148                      p33_abroad_podcasts
+## 149                   p33_meetups_and_events
+## 150                    p33_only_data_hackers
+## 151                                p33_other
+## 152                              p34_udacity
+## 153                             p34_coursera
+## 154                                p34_udemy
+## 155                               p34_height
+## 156                                  p34_edx
+## 157                            p34_data_camp
+## 158                           p34_data_quest
+## 159                         p34_kaggle_learn
+## 160                       p34_online_courses
+## 161                                p34_other
+## 162   p35_data_science_plataforms_preference
+## 163                                p35_other
+## 164                   p36_draw_participation
+## 165                    d1_living_macroregion
+## 166                    d2_origin_macroregion
+## 167                d3_anonymized_degree_area
+## 168              d4_anonymized_market_sector
+## 169              d5_anonymized_manager_level
+## 170                       d6_anonymized_role</code></pre>
+</div>
+<div id="funções-auxiliares" class="section level1">
+<h1>Funções auxiliares</h1>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true"></a>make_bar &lt;-<span class="st"> </span><span class="cf">function</span>(data, var, reorder_labels) {</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true"></a>  <span class="cf">if</span> (reorder_labels) {</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true"></a>    data &lt;-</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true"></a><span class="st">      </span>data <span class="op">%&gt;%</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true"></a><span class="st">      </span><span class="kw">group_by</span>({{ var }}) <span class="op">%&gt;%</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true"></a><span class="st">      </span><span class="kw">count</span>(<span class="dt">sort =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true"></a><span class="st">      </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true"></a><span class="st">      </span><span class="kw">drop_na</span>() <span class="op">%&gt;%</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true"></a><span class="st">      </span><span class="kw">mutate</span>(<span class="dt">var_fac =</span> <span class="kw">fct_reorder</span>(<span class="kw">factor</span>({{ var }}), n))</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true"></a></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true"></a>  } <span class="cf">else</span> {</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true"></a></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true"></a>    data &lt;-</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true"></a><span class="st">      </span>data <span class="op">%&gt;%</span></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true"></a><span class="st">      </span><span class="kw">group_by</span>({{ var }}) <span class="op">%&gt;%</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true"></a><span class="st">      </span><span class="kw">count</span>(<span class="dt">sort =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true"></a><span class="st">      </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true"></a><span class="st">      </span><span class="kw">drop_na</span>() <span class="op">%&gt;%</span></span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true"></a><span class="st">      </span><span class="kw">mutate</span>(<span class="dt">var_fac =</span> {{ var }})</span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true"></a></span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true"></a>  }</span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true"></a></span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true"></a>    data <span class="op">%&gt;%</span></span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true"></a><span class="st">      </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> n, <span class="dt">y =</span> var_fac)) <span class="op">+</span></span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true"></a><span class="st">      </span><span class="kw">geom_col</span>() <span class="op">+</span></span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true"></a><span class="st">      </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true"></a></span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true"></a>}</span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true"></a></span>
+<span id="cb20-32"><a href="#cb20-32" aria-hidden="true"></a>make_multiple_long &lt;-<span class="st"> </span><span class="cf">function</span>(data, var_partial) {</span>
+<span id="cb20-33"><a href="#cb20-33" aria-hidden="true"></a></span>
+<span id="cb20-34"><a href="#cb20-34" aria-hidden="true"></a>  data <span class="op">%&gt;%</span></span>
+<span id="cb20-35"><a href="#cb20-35" aria-hidden="true"></a><span class="st">    </span><span class="kw">select</span>(<span class="kw">contains</span>(var_partial)) <span class="op">%&gt;%</span></span>
+<span id="cb20-36"><a href="#cb20-36" aria-hidden="true"></a><span class="st">    </span><span class="kw">pivot_longer</span>(<span class="dt">cols =</span> <span class="kw">contains</span>(var_partial)) <span class="op">%&gt;%</span></span>
+<span id="cb20-37"><a href="#cb20-37" aria-hidden="true"></a><span class="st">    </span><span class="kw">filter</span>(value <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>) <span class="op">%&gt;%</span></span>
+<span id="cb20-38"><a href="#cb20-38" aria-hidden="true"></a><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">name =</span> <span class="kw">str_remove_all</span>(name, var_partial))</span>
+<span id="cb20-39"><a href="#cb20-39" aria-hidden="true"></a></span>
+<span id="cb20-40"><a href="#cb20-40" aria-hidden="true"></a>}</span></code></pre></div>
+</div>
+<div id="informações-originais" class="section level1">
+<h1>Informações originais</h1>
+<div id="pergunta_1-p1-idade-mascarada" class="section level2">
+<h2>1. Pergunta_1 (P1) = Idade? [Mascarada]</h2>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> p1_age)) <span class="op">+</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">geom_bar</span>() <span class="op">+</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Idade&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<pre><code>## Warning: Removed 24 rows containing non-finite values (stat_count).</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" width="1440" /></p>
+</div>
+<div id="pergunta_2-p2-gênero-mascarada" class="section level2">
+<h2>2. Pergunta_2 (P2) = Gênero? [Mascarada]</h2>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_bar</span>(<span class="dt">var =</span> p2_gender, <span class="dt">reorder_labels =</span> <span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Gênero&quot;</span>)</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" width="1440" /></p>
+</div>
+<div id="pergunta_3-p3-atualmente-você-vive-no-brasil" class="section level2">
+<h2>3. Pergunta_3 (P3) = Atualmente você vive no Brasil?</h2>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_bar</span>(p3_living_in_brasil, <span class="dt">reorder_labels =</span> <span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Residentes no Brasil&quot;</span>)</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" width="1440" /></p>
+</div>
+<div id="pergunta_5-p5-em-que-estado-você-vive-hoje-mascarada" class="section level2">
+<h2>5. Pergunta_5 (P5) = Em que estado você vive hoje? [Mascarada]</h2>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_bar</span>(p5_living_state, <span class="dt">reorder_labels =</span> <span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Residentes por UF&quot;</span>)</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" width="1440" /></p>
+</div>
+<div id="pergunta_6-p6-na-questão-anterior-você-disse-que-vive-em-_____-.-esse-é-seu-estado-de-origem-onde-nasceu-ou-se-formou" class="section level2">
+<h2>6. Pergunta_6 (P6) = Na questão anterior você disse que vive em _____ . Esse é seu estado de origem (onde nasceu ou se formou)?</h2>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_bar</span>(p6_born_or_graduated, <span class="dt">reorder_labels =</span> <span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Residem no Estado de origem&quot;</span>)</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-8-1.png" width="1440" /></p>
+</div>
+<div id="pergunta_7-p7-qual-seu-estado-de-origem" class="section level2">
+<h2>7. Pergunta_7 (P7) = Qual seu estado de origem?</h2>
+<p>Dados não fornecidos</p>
+</div>
+<div id="pergunta_8-p8-qual-seu-nível-de-ensino" class="section level2">
+<h2>8. Pergunta_8 (P8) = Qual seu nível de ensino?</h2>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_bar</span>(p8_degreee_level, <span class="dt">reorder_labels =</span> <span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Escolaridade&quot;</span>)</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-9-1.png" width="1440" /></p>
+</div>
+<div id="pergunta_9-p9-qual-sua-área-de-formação" class="section level2">
+<h2>9. Pergunta_9 (P9) = Qual sua área de formação?</h2>
+</div>
+<div id="pergunta_10-p10-qual-sua-situação-atual-de-trabalho" class="section level2">
+<h2>10. Pergunta_10 (P10) = Qual sua situação atual de trabalho?</h2>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_bar</span>(p10_job_situation, <span class="dt">reorder_labels =</span> <span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Situação atual de trabalho&quot;</span>)</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-10-1.png" width="1440" /></p>
+</div>
+<div id="pergunta_11-p11-a-empresa-em-que-você-trabalha-pertence-a-qual-setor" class="section level2">
+<h2>11. Pergunta_11 (P11) = A empresa em que você trabalha pertence a qual setor?</h2>
+<p>Dados não fornecidos</p>
+</div>
+<div id="pergunta_12-p12-a-empresa-em-que-você-trabalha-possui-quantos-funcionários-atualmente" class="section level2">
+<h2>12. Pergunta_12 (P12) = A empresa em que você trabalha possui quantos funcionários atualmente?</h2>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true"></a><span class="co"># df %&gt;%</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true"></a><span class="co">#   mutate(</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true"></a><span class="co">#     p12_workers_number = factor(</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true"></a><span class="co">#       p12_workers_number,</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true"></a><span class="co">#       levels = c(</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true"></a><span class="co">#         &quot;de 1 a 5&quot;,</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true"></a><span class="co">#         &quot;de 6 a 10&quot;,</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true"></a><span class="co">#         &quot;de 11 a 50&quot;,</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true"></a><span class="co">#         &quot;de 51 a 100&quot;,</span></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true"></a><span class="co">#         &quot;de 101 a 500&quot;,</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true"></a><span class="co">#         &quot;de 501 a 1000&quot;,</span></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true"></a><span class="co">#         &quot;de 1001 a 3000&quot;,</span></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true"></a><span class="co">#         &quot;Acima de 3000&quot;,</span></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true"></a><span class="co">#         NA_real_</span></span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true"></a><span class="co">#       )</span></span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true"></a><span class="co">#     )</span></span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true"></a><span class="co">#   ) %&gt;%</span></span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true"></a><span class="co">#   ggplot(aes(y = p12_workers_number)) +</span></span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true"></a><span class="co">#   geom_bar() +</span></span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true"></a><span class="co">#   labs(</span></span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true"></a><span class="co">#     x = &quot;Números de funcionários&quot;,</span></span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true"></a><span class="co">#     y = &quot;&quot;,</span></span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true"></a><span class="co">#     title = &quot;Número de funcionários da empresa atual&quot;</span></span>
+<span id="cb29-24"><a href="#cb29-24" aria-hidden="true"></a><span class="co">#   )</span></span>
+<span id="cb29-25"><a href="#cb29-25" aria-hidden="true"></a></span>
+<span id="cb29-26"><a href="#cb29-26" aria-hidden="true"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb29-27"><a href="#cb29-27" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_bar</span>(p12_workers_number, <span class="dt">reorder_labels =</span> <span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb29-28"><a href="#cb29-28" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Número de funcionários da empresa atual&quot;</span>)</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-11-1.png" width="1440" /></p>
+</div>
+<div id="pergunta_13-p13-você-atua-como-gestor" class="section level2">
+<h2>13. Pergunta_13 (P13) = Você atua como gestor?</h2>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_bar</span>(p13_manager, <span class="dt">reorder_labels =</span> <span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Atuação como gestor&quot;</span>)</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-12-1.png" width="1440" /></p>
+</div>
+<div id="pergunta_14-p14-qual-das-opções-abaixo-definem-melhor-seu-cargo-de-trabalho-atual-como-gestor" class="section level2">
+<h2>14. Pergunta_14 (P14) = Qual das opções abaixo definem melhor seu cargo de trabalho atual como gestor?</h2>
+<p>Dados não fornecidos</p>
+</div>
+<div id="pergunta_15-p15-qual-das-opções-abaixo-definem-melhor-seu-cargo-de-trabalho-atual" class="section level2">
+<h2>15. Pergunta_15 (P15) = Qual das opções abaixo definem melhor seu cargo de trabalho atual?</h2>
+<p>Dados não fornecidos</p>
+</div>
+<div id="pergunta_16-p16-qual-sua-faixa-salarial-atual-mascarada" class="section level2">
+<h2>16. Pergunta_16 (P16) = Qual sua faixa salarial atual? [Mascarada]</h2>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_bar</span>(p16_salary_range, <span class="dt">reorder_labels =</span> <span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Faixa salarial&quot;</span>)</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-13-1.png" width="1440" /></p>
+</div>
+<div id="pergunta_17-p17-quanto-tempo-de-experiência-na-área-de-dados-você-tem" class="section level2">
+<h2>17. Pergunta_17 (P17) = Quanto tempo de experiência na área de dados você tem?</h2>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_bar</span>(p17_time_experience_data_science, <span class="dt">reorder_labels =</span> <span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Anos de experiência na área de dados&quot;</span>)</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-14-1.png" width="1440" /></p>
+</div>
+<div id="pergunta_18-p18-quanto-tempo-de-experiência-na-área-de-tiengenharia-de-software-você-teve-antes-de-começar-a-trabalhar-na-área-de-dados" class="section level2">
+<h2>18. Pergunta_18 (P18) = Quanto tempo de experiência na área de TI/Engenharia de Software você teve antes de começar a trabalhar na área de dados?</h2>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">mutate</span>(</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true"></a>    <span class="dt">p18_time_experience_before =</span> <span class="kw">str_trunc</span>(p18_time_experience_before, <span class="dv">23</span>)</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true"></a>  ) <span class="op">%&gt;%</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_bar</span>(p18_time_experience_before, <span class="dt">reorder_labels =</span> <span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Anos de experiência em TI/ES </span><span class="ch">\n</span><span class="st">antes de trabalhar com dados&quot;</span>)</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-15-1.png" width="1440" /></p>
+</div>
+<div id="pergunta_19-p19-você-se-considera-um-profissional-que-atua-na-área-de-data-science" class="section level2">
+<h2>19. Pergunta_19 (P19) = Você se considera um profissional que atua na área de Data Science?</h2>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_bar</span>(p19_is_data_science_professional, <span class="dt">reorder_labels =</span> <span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Considera-se profissional em Data Science&quot;</span>)</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-16-1.png" width="1440" /></p>
+</div>
+<div id="pergunta_20-p20-quais-dos-métodos-listados-abaixo-você-costuma-utilizar-no-trabalho" class="section level2">
+<h2>20. Pergunta_20 (P20) = Quais dos métodos listados abaixo você costuma utilizar no trabalho?</h2>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true"></a>p_var &lt;-<span class="st"> &quot;p20_&quot;</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_multiple_long</span>(p_var) <span class="op">%&gt;%</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_bar</span>(<span class="dt">var =</span> name, <span class="dt">reorder_labels =</span> <span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Métodos utilizados&quot;</span>)</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-17-1.png" width="1440" /></p>
+</div>
+<div id="pergunta_21-p21-quais-das-linguagens-de-programação-listadas-abaixo-você-utiliza-no-trabalho" class="section level2">
+<h2>21. Pergunta_21 (P21) = Quais das linguagens de programação listadas abaixo você utiliza no trabalho?</h2>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true"></a>p_var &lt;-<span class="st"> &quot;p21_&quot;</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_multiple_long</span>(p_var) <span class="op">%&gt;%</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_bar</span>(<span class="dt">var =</span> name, <span class="dt">reorder_labels =</span> <span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Linguagens de programação utlizadas&quot;</span>)</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-18-1.png" width="1440" /></p>
+</div>
+<div id="pergunta_22-p22-entre-as-linguagens-de-programação-listadas-abaixo-qual-é-a-que-você-mais-utiliza-no-trabalho-mascarada" class="section level2">
+<h2>22. Pergunta_22 (P22) = Entre as linguagens de programação listadas abaixo, qual é a que você mais utiliza no trabalho? [Mascarada]</h2>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_bar</span>(p22_most_used_proggraming_languages, <span class="dt">reorder_labels =</span> <span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Linguagem de programação </span><span class="ch">\n</span><span class="st">mais utilizada&quot;</span>)</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-19-1.png" width="1440" /></p>
+</div>
+<div id="pergunta_23-p23-quais-das-fontes-de-dados-listadas-você-já-analisou-no-trabalho" class="section level2">
+<h2>23. Pergunta_23 (P23) = Quais das fontes de dados listadas você já analisou no trabalho?</h2>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true"></a>p_var &lt;-<span class="st"> &quot;p23_&quot;</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_multiple_long</span>(p_var) <span class="op">%&gt;%</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_bar</span>(<span class="dt">var =</span> name, <span class="dt">reorder_labels =</span> <span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Fontes de dados analisadas no trabalho&quot;</span>)</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-20-1.png" width="1440" /></p>
+</div>
+<div id="pergunta_24-p24-entre-as-fontes-de-dados-listadas-quais-você-utiliza-na-maior-parte-do-tempo-selecione-no-máximo-duas-opções-que-você-mais-utiliza." class="section level2">
+<h2>24. Pergunta_24 (P24) = Entre as fontes de dados listadas, quais você utiliza na maior parte do tempo? Selecione no máximo duas opções que você mais utiliza.</h2>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true"></a>p_var &lt;-<span class="st"> &quot;p24_&quot;</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true"></a></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_multiple_long</span>(p_var) <span class="op">%&gt;%</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_bar</span>(<span class="dt">var =</span> name, <span class="dt">reorder_labels =</span> <span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true"></a>    <span class="dt">title =</span> <span class="st">&quot;Fontes de dados mais utilizadas no trabalho&quot;</span>,</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true"></a>    <span class="dt">subtitle =</span> <span class="st">&quot;Cada participante escolheu no máximo duas opções&quot;</span></span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true"></a>  )</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-21-1.png" width="1440" /></p>
+</div>
+<div id="pergunta_25-p25-quais-das-opções-de-cloud-listadas-abaixo-você-utiliza-no-trabalho" class="section level2">
+<h2>25. Pergunta_25 (P25) = Quais das opções de Cloud listadas abaixo você utiliza no trabalho?</h2>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true"></a>p_var &lt;-<span class="st"> &quot;p25_&quot;</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true"></a></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_multiple_long</span>(p_var) <span class="op">%&gt;%</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_bar</span>(<span class="dt">var =</span> name, <span class="dt">reorder_labels =</span> <span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Serviços de nuvem utilizadas no trabalho&quot;</span>)</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-22-1.png" width="1440" /></p>
+</div>
+<div id="pergunta_26-p26-quais-dos-bancos-de-dadosfontes-de-dados-listados-abaixo-você-utiliza-para-consultar-informações-e-posteriormente-analisar-no-trabalho" class="section level2">
+<h2>26. Pergunta_26 (P26) = Quais dos bancos de dados/fontes de dados listados abaixo você utiliza para consultar informações, e posteriormente analisar, no trabalho?</h2>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true"></a>p_var &lt;-<span class="st"> &quot;p26_&quot;</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_multiple_long</span>(p_var) <span class="op">%&gt;%</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_bar</span>(<span class="dt">var =</span> name, <span class="dt">reorder_labels =</span> <span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Fontes de dados para consulta e análise&quot;</span>)</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-23-1.png" width="1440" /></p>
+</div>
+<div id="pergunta_27-p27-quais-as-ferramentas-de-business-intelligence-você-utiliza-no-trabalho" class="section level2">
+<h2>27. Pergunta_27 (P27) = Quais as Ferramentas de Business Intelligence você utiliza no trabalho?</h2>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true"></a>p_var &lt;-<span class="st"> &quot;p27_&quot;</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true"></a></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_multiple_long</span>(p_var) <span class="op">%&gt;%</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_bar</span>(<span class="dt">var =</span> name, <span class="dt">reorder_labels =</span> <span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Ferramentas de BI&quot;</span>)</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-24-1.png" width="1440" /></p>
+</div>
+<div id="pergunta_28-p28-quais-as-tecnologias-são-utilizadas-como-ferramenta-de-etl-no-seu-trabalho" class="section level2">
+<h2>28. Pergunta_28 (P28) = Quais as tecnologias são utilizadas como ferramenta de ETL no seu trabalho?</h2>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true"></a>p_var &lt;-<span class="st"> &quot;p28_&quot;</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true"></a></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_multiple_long</span>(p_var) <span class="op">%&gt;%</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_bar</span>(<span class="dt">var =</span> name, <span class="dt">reorder_labels =</span> <span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Ferramentas de ETL&quot;</span>)</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-25-1.png" width="1440" /></p>
+</div>
+<div id="pergunta_29-p29-sua-organização-possui-um-data-warehouse" class="section level2">
+<h2>29. Pergunta_29 (P29) = Sua organização possui um Data Warehouse?</h2>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_bar</span>(p29_have_data_warehouse, <span class="dt">reorder_labels =</span> <span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Utilização de Data Warehouse na empresa&quot;</span>)</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-26-1.png" width="1440" /></p>
+</div>
+<div id="pergunta_30-p30-qual-tecnologia-utilizada-como-plataforma-do-data-warehouse" class="section level2">
+<h2>30. Pergunta_30 (P30) = Qual tecnologia utilizada como plataforma do Data Warehouse?</h2>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true"></a>p_var &lt;-<span class="st"> &quot;p30_&quot;</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true"></a></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_multiple_long</span>(p_var) <span class="op">%&gt;%</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_bar</span>(<span class="dt">var =</span> name, <span class="dt">reorder_labels =</span> <span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Ferramentas de Data Warehouse&quot;</span>)</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-27-1.png" width="1440" /></p>
+</div>
+<div id="pergunta_31-p31-quais-das-iniciativas-do-data-hackers-que-você-já-acessouacompanhou" class="section level2">
+<h2>31. Pergunta_31 (P31) = Quais das iniciativas do Data Hackers que você já acessou/acompanhou?</h2>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true"></a>p_var &lt;-<span class="st"> &quot;p31_&quot;</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true"></a></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_multiple_long</span>(p_var) <span class="op">%&gt;%</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_bar</span>(<span class="dt">var =</span> name, <span class="dt">reorder_labels =</span> <span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Acesso às iniciativas do Data Hackers&quot;</span>)</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-28-1.png" width="1440" /></p>
+</div>
+<div id="pergunta_32-p32-entre-as-iniciativas-do-data-hackers-qual-a-sua-preferida" class="section level2">
+<h2>32. Pergunta_32 (P32) = Entre as iniciativas do Data Hackers qual a sua preferida?</h2>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_bar</span>(p32_prefered_data_hackers_initiative, <span class="dt">reorder_labels =</span> <span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Preferência pelas iniciativas </span><span class="ch">\n</span><span class="st">do Data Hackers&quot;</span>)</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-29-1.png" width="1440" /></p>
+</div>
+<div id="pergunta_33-p33-de-quais-outras-formas-que-você-costuma-se-atualizar-no-mundo-dos-dados" class="section level2">
+<h2>33. Pergunta_33 (P33) = De quais outras formas que você costuma se atualizar no mundo dos dados?</h2>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true"></a>p_var &lt;-<span class="st"> &quot;p33_&quot;</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true"></a></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_multiple_long</span>(p_var) <span class="op">%&gt;%</span></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_bar</span>(<span class="dt">var =</span> name, <span class="dt">reorder_labels =</span> <span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Plataformas utilizadas para </span><span class="ch">\n</span><span class="st">atualização sobre Data Science&quot;</span>)</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-30-1.png" width="1440" /></p>
+</div>
+<div id="pergunta_34-p34-em-quais-dessas-plataformas-listadas-abaixo-você-já-inicioucompletou-cursos-na-área-de-data-science" class="section level2">
+<h2>34. Pergunta_34 (P34) = Em quais dessas plataformas listadas abaixo você já iniciou/completou cursos na área de Data Science?</h2>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true"></a>p_var &lt;-<span class="st"> &quot;p34_&quot;</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true"></a></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_multiple_long</span>(p_var) <span class="op">%&gt;%</span></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_bar</span>(<span class="dt">var =</span> name, <span class="dt">reorder_labels =</span> <span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Plataformas de cursos (iniciados ou completos)&quot;</span>)</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-31-1.png" width="1440" /></p>
+</div>
+<div id="pergunta_35-p35-dentre-as-plataformas-listadas-abaixo-qual-foi-a-sua-preferida-para-cursos-de-data-science" class="section level2">
+<h2>35. Pergunta_35 (P35) = Dentre as plataformas listadas abaixo qual foi a sua preferida para cursos de Data Science?</h2>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true"></a>p_var &lt;-<span class="st"> &quot;p35_&quot;</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true"></a></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_multiple_long</span>(p_var) <span class="op">%&gt;%</span></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">value =</span> <span class="kw">str_to_lower</span>(value)) <span class="op">%&gt;%</span></span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true"></a><span class="st">  </span><span class="kw">group_by</span>(value) <span class="op">%&gt;%</span></span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true"></a><span class="st">  </span><span class="kw">filter</span>(<span class="kw">n</span>() <span class="op">&gt;</span><span class="st"> </span><span class="dv">50</span>) <span class="op">%&gt;%</span></span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_bar</span>(<span class="dt">var =</span> value, <span class="dt">reorder_labels =</span> <span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(</span>
+<span id="cb50-10"><a href="#cb50-10" aria-hidden="true"></a>    <span class="dt">title =</span> <span class="st">&quot;Plataformas de curso preferidas&quot;</span>,</span>
+<span id="cb50-11"><a href="#cb50-11" aria-hidden="true"></a>    <span class="dt">subtitle =</span> <span class="st">&quot;Respostas que ocorreram 50 vezes ou mais&quot;</span></span>
+<span id="cb50-12"><a href="#cb50-12" aria-hidden="true"></a>  )</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-32-1.png" width="1440" /></p>
+</div>
+<div id="pergunta_36-p36-você-deseja-participar-do-sorteio" class="section level2">
+<h2>36. Pergunta_36 (P36) = Você deseja participar do sorteio?</h2>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_bar</span>(p36_draw_participation, <span class="dt">reorder_labels =</span> <span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Desejo em participar do sorteio&quot;</span>)</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-33-1.png" width="1440" /></p>
+</div>
+</div>
+<div id="informações-derivadas" class="section level1">
+<h1>Informações derivadas</h1>
+<div id="derivado_1-d1-macrorregião-em-que-mora" class="section level2">
+<h2>1. Derivado_1 (D1) = Macrorregião em que mora</h2>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_bar</span>(d1_living_macroregion, <span class="dt">reorder_labels =</span> <span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Residentes por macrorregião&quot;</span>)</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-34-1.png" width="1440" /></p>
+</div>
+<div id="derivado_2-d2-macrorregião-em-que-nasceu" class="section level2">
+<h2>2. Derivado_2 (D2) = Macrorregião em que nasceu</h2>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_bar</span>(d2_origin_macroregion, <span class="dt">reorder_labels =</span> <span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Macrorregião de origem&quot;</span>)</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-35-1.png" width="1440" /></p>
+</div>
+<div id="derivado_3-d3-área-de-formação-anonimizada" class="section level2">
+<h2>3. Derivado_3 (D3) = Área de formação anonimizada</h2>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_bar</span>(d3_anonymized_degree_area, <span class="dt">reorder_labels =</span> <span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Área de formação&quot;</span>)</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-36-1.png" width="1440" /></p>
+</div>
+<div id="derivado_4-d4-setor-de-mercado-anonimizado" class="section level2">
+<h2>4. Derivado_4 (D4) = Setor de mercado anonimizado</h2>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_bar</span>(d4_anonymized_market_sector, <span class="dt">reorder_labels =</span> <span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Atuação por setor de mercado&quot;</span>)</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-37-1.png" width="1440" /></p>
+</div>
+<div id="derivado_5-d5-nível-de-gerência-anonimizado" class="section level2">
+<h2>5. Derivado_5 (D5) = Nível de gerência anonimizado</h2>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_bar</span>(d5_anonymized_manager_level, <span class="dt">reorder_labels =</span> <span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Nível gerencial&quot;</span>)</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-38-1.png" width="1440" /></p>
+</div>
+<div id="derivado_6-d6-cargo-anonimizado" class="section level2">
+<h2>6. Derivado_6 (D6) = Cargo anonimizado</h2>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">make_bar</span>(d6_anonymized_role, <span class="dt">reorder_labels =</span> <span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Cargo de atuação&quot;</span>)</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-39-1.png" width="1440" /></p>
+</div>
+</div>
+<div id="continua" class="section level1">
+<h1>Continua…</h1>
+<ul class="task-list">
+<li><p><input type="checkbox" disabled="" />
+Cruzar informações: mesmos gráficos com <code>fill</code></p></li>
+<li><p><input type="checkbox" disabled="" />
+Correlações</p></li>
+</ul>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

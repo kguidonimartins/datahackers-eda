@@ -1,0 +1,665 @@
+---
+title: "EDA da pesquisa Data Hackers"
+author: "Karlo Guidoni Martins"
+output:
+  html_document: 
+    toc: yes
+    toc_float: yes
+    highlight: tango
+editor_options:
+  chunk_output_type: inline
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  fig.width = 15,
+  fig.height = 10
+)
+```
+
+
+# Instalação dos pacotes
+
+
+```{r}
+
+if (!require("tidyverse")) install.packages("tidyverse")
+if (!require("here")) install.packages("here")
+if (!require("janitor")) install.packages("janitor")
+theme_set(theme_light(base_size = 20))
+
+```
+
+
+# Lendo e limpando dados
+
+
+```{r}
+
+df <-
+  read_csv(
+    here("data", "raw", "datahackers-survey-2019-anonymous-responses.csv")
+    ) %>%
+  clean_names() %>%
+  # colunas com respostas 0/1 serão Não/Sim
+  mutate_at(
+    vars(
+      contains(
+        c("p3_", "p6_", "p13_", "p19_", "p29_", "p36_")
+      )
+    ),
+    funs(
+      case_when(
+        . == 1 ~ "Sim",
+        . == 0 ~ "Não"
+      )
+    )
+  )
+
+df %>%
+  names() %>%
+  as.data.frame()
+
+```
+
+
+# Funções auxiliares
+
+
+```{r}
+
+make_bar <- function(data, var, reorder_labels) {
+
+  if (reorder_labels) {
+
+    data <-
+      data %>%
+      group_by({{ var }}) %>%
+      count(sort = TRUE) %>%
+      ungroup() %>%
+      drop_na() %>%
+      mutate(var_fac = fct_reorder(factor({{ var }}), n))
+
+  } else {
+
+    data <-
+      data %>%
+      group_by({{ var }}) %>%
+      count(sort = TRUE) %>%
+      ungroup() %>%
+      drop_na() %>%
+      mutate(var_fac = {{ var }})
+
+  }
+
+    data %>%
+      ggplot(aes(x = n, y = var_fac)) +
+      geom_col() +
+      labs(x = "", y = "")
+
+}
+
+make_multiple_long <- function(data, var_partial) {
+
+  data %>%
+    select(contains(var_partial)) %>%
+    pivot_longer(cols = contains(var_partial)) %>%
+    filter(value != 0) %>%
+    mutate(name = str_remove_all(name, var_partial))
+
+}
+
+```
+
+
+# Informações originais
+
+
+## 1. Pergunta_1 (P1) = Idade? [Mascarada]
+
+
+```{r}
+
+df %>%
+  ggplot(aes(x = p1_age)) +
+  geom_bar() +
+  labs(x = "Idade", y = "")
+
+```
+
+
+## 2. Pergunta_2 (P2) = Gênero? [Mascarada]
+
+
+```{r}
+
+df %>%
+  make_bar(var = p2_gender, reorder_labels = TRUE) +
+  labs(title = "Gênero")
+
+```
+
+
+## 3. Pergunta_3 (P3) = Atualmente você vive no Brasil?
+
+
+```{r}
+
+df %>%
+  make_bar(p3_living_in_brasil, reorder_labels = TRUE) +
+  labs(title = "Residentes no Brasil")
+
+```
+
+
+## 5. Pergunta_5 (P5) = Em que estado você vive hoje? [Mascarada]
+
+
+```{r}
+
+df %>%
+  make_bar(p5_living_state, reorder_labels = TRUE) +
+  labs(title = "Residentes por UF")
+
+```
+
+
+## 6. Pergunta_6 (P6) = Na questão anterior você disse que vive em _____ . Esse é seu estado de origem (onde nasceu ou se formou)?
+
+
+```{r}
+
+df %>%
+  make_bar(p6_born_or_graduated, reorder_labels = TRUE) +
+  labs(title = "Residem no Estado de origem")
+
+```
+
+
+## 7. Pergunta_7 (P7) = Qual seu estado de origem?
+
+
+Dados não fornecidos
+
+
+## 8. Pergunta_8 (P8) = Qual seu nível de ensino?
+
+
+```{r}
+
+df %>%
+  make_bar(p8_degreee_level, reorder_labels = TRUE) +
+  labs(title = "Escolaridade")
+
+```
+
+
+## 9. Pergunta_9 (P9) = Qual sua área de formação?
+
+
+## 10. Pergunta_10 (P10) = Qual sua situação atual de trabalho?
+
+
+```{r}
+
+df %>%
+  make_bar(p10_job_situation, reorder_labels = TRUE) +
+  labs(title = "Situação atual de trabalho")
+
+```
+
+
+## 11. Pergunta_11 (P11) = A empresa em que você trabalha pertence a qual setor?
+
+
+Dados não fornecidos
+
+
+## 12. Pergunta_12 (P12) = A empresa em que você trabalha possui quantos funcionários atualmente?
+
+
+```{r}
+
+# df %>%
+#   mutate(
+#     p12_workers_number = factor(
+#       p12_workers_number,
+#       levels = c(
+#         "de 1 a 5",
+#         "de 6 a 10",
+#         "de 11 a 50",
+#         "de 51 a 100",
+#         "de 101 a 500",
+#         "de 501 a 1000",
+#         "de 1001 a 3000",
+#         "Acima de 3000",
+#         NA_real_
+#       )
+#     )
+#   ) %>%
+#   ggplot(aes(y = p12_workers_number)) +
+#   geom_bar() +
+#   labs(
+#     x = "Números de funcionários",
+#     y = "",
+#     title = "Número de funcionários da empresa atual"
+#   )
+
+df %>%
+  make_bar(p12_workers_number, reorder_labels = TRUE) +
+  labs(title = "Número de funcionários da empresa atual")
+
+```
+
+
+## 13. Pergunta_13 (P13) = Você atua como gestor?
+
+
+```{r}
+
+df %>%
+  make_bar(p13_manager, reorder_labels = TRUE) +
+  labs(title = "Atuação como gestor")
+
+```
+
+
+## 14. Pergunta_14 (P14) = Qual das opções abaixo definem melhor seu cargo de trabalho atual como gestor?
+
+
+Dados não fornecidos
+
+
+## 15. Pergunta_15 (P15) = Qual das opções abaixo definem melhor seu cargo de trabalho atual?
+
+
+Dados não fornecidos
+
+
+## 16. Pergunta_16 (P16) = Qual sua faixa salarial atual? [Mascarada]
+
+
+```{r}
+
+df %>%
+  make_bar(p16_salary_range, reorder_labels = TRUE) +
+  labs(title = "Faixa salarial")
+
+```
+
+
+## 17. Pergunta_17 (P17) = Quanto tempo de experiência na área de dados você tem?
+
+
+```{r}
+
+df %>%
+  make_bar(p17_time_experience_data_science, reorder_labels = TRUE) +
+  labs(title = "Anos de experiência na área de dados")
+
+```
+
+
+## 18. Pergunta_18 (P18) = Quanto tempo de experiência na área de TI/Engenharia de Software você teve antes de começar a trabalhar na área de dados?
+
+
+```{r}
+
+df %>%
+  mutate(
+    p18_time_experience_before = str_trunc(p18_time_experience_before, 23)
+  ) %>%
+  make_bar(p18_time_experience_before, reorder_labels = TRUE) +
+  labs(title = "Anos de experiência em TI/ES \nantes de trabalhar com dados")
+
+```
+
+
+## 19. Pergunta_19 (P19) = Você se considera um profissional que atua na área de Data Science?
+
+
+```{r}
+
+df %>%
+  make_bar(p19_is_data_science_professional, reorder_labels = TRUE) +
+  labs(title = "Considera-se profissional em Data Science")
+
+```
+
+
+## 20. Pergunta_20 (P20) = Quais dos métodos listados abaixo você costuma utilizar no trabalho?
+
+
+```{r}
+
+p_var <- "p20_"
+
+df %>%
+  make_multiple_long(p_var) %>%
+  make_bar(var = name, reorder_labels = TRUE) +
+  labs(title = "Métodos utilizados")
+
+```
+
+
+## 21. Pergunta_21 (P21) = Quais das linguagens de programação listadas abaixo você utiliza no trabalho?
+
+
+```{r}
+
+p_var <- "p21_"
+
+df %>%
+  make_multiple_long(p_var) %>%
+  make_bar(var = name, reorder_labels = TRUE) +
+  labs(title = "Linguagens de programação utlizadas")
+
+```
+
+
+## 22. Pergunta_22 (P22) = Entre as linguagens de programação listadas abaixo, qual é a que você mais utiliza no trabalho? [Mascarada]
+
+
+```{r}
+
+df %>%
+  make_bar(p22_most_used_proggraming_languages, reorder_labels = TRUE) +
+  labs(title = "Linguagem de programação \nmais utilizada")
+
+```
+
+
+## 23. Pergunta_23 (P23) = Quais das fontes de dados listadas você já analisou no trabalho?
+
+
+```{r}
+
+p_var <- "p23_"
+
+df %>%
+  make_multiple_long(p_var) %>%
+  make_bar(var = name, reorder_labels = TRUE) +
+  labs(title = "Fontes de dados analisadas no trabalho")
+
+```
+
+
+## 24. Pergunta_24 (P24) = Entre as fontes de dados listadas, quais você utiliza na maior parte do tempo? Selecione no máximo duas opções que você mais utiliza.
+
+
+```{r}
+
+p_var <- "p24_"
+
+df %>%
+  make_multiple_long(p_var) %>%
+  make_bar(var = name, reorder_labels = TRUE) +
+  labs(
+    title = "Fontes de dados mais utilizadas no trabalho",
+    subtitle = "Cada participante escolheu no máximo duas opções"
+  )
+
+```
+
+
+## 25. Pergunta_25 (P25) = Quais das opções de Cloud listadas abaixo você utiliza no trabalho?
+
+
+```{r}
+
+p_var <- "p25_"
+
+df %>%
+  make_multiple_long(p_var) %>%
+  make_bar(var = name, reorder_labels = TRUE) +
+  labs(title = "Serviços de nuvem utilizadas no trabalho")
+
+```
+
+
+## 26. Pergunta_26 (P26) = Quais dos bancos de dados/fontes de dados listados abaixo você utiliza para consultar informações, e posteriormente analisar, no trabalho?
+
+
+```{r}
+
+p_var <- "p26_"
+
+df %>%
+  make_multiple_long(p_var) %>%
+  make_bar(var = name, reorder_labels = TRUE) +
+  labs(title = "Fontes de dados para consulta e análise")
+
+```
+
+
+## 27. Pergunta_27 (P27) = Quais as Ferramentas de Business Intelligence você utiliza no trabalho?
+
+
+```{r}
+
+p_var <- "p27_"
+
+df %>%
+  make_multiple_long(p_var) %>%
+  make_bar(var = name, reorder_labels = TRUE) +
+  labs(title = "Ferramentas de BI")
+
+```
+
+
+## 28. Pergunta_28 (P28) = Quais as tecnologias são utilizadas como ferramenta de ETL no seu trabalho?
+
+
+```{r}
+
+p_var <- "p28_"
+
+df %>%
+  make_multiple_long(p_var) %>%
+  make_bar(var = name, reorder_labels = TRUE) +
+  labs(title = "Ferramentas de ETL")
+
+```
+
+
+## 29. Pergunta_29 (P29) = Sua organização possui um Data Warehouse?
+
+
+```{r}
+
+df %>%
+  make_bar(p29_have_data_warehouse, reorder_labels = TRUE) +
+  labs(title = "Utilização de Data Warehouse na empresa")
+
+```
+
+
+## 30. Pergunta_30 (P30) = Qual tecnologia utilizada como plataforma do Data Warehouse?
+
+
+```{r}
+
+p_var <- "p30_"
+
+df %>%
+  make_multiple_long(p_var) %>%
+  make_bar(var = name, reorder_labels = TRUE) +
+  labs(title = "Ferramentas de Data Warehouse")
+
+```
+
+
+## 31. Pergunta_31 (P31) = Quais das iniciativas do Data Hackers que você já acessou/acompanhou?
+
+
+```{r}
+
+p_var <- "p31_"
+
+df %>%
+  make_multiple_long(p_var) %>%
+  make_bar(var = name, reorder_labels = TRUE) +
+  labs(title = "Acesso às iniciativas do Data Hackers")
+
+```
+
+
+## 32. Pergunta_32 (P32) = Entre as iniciativas do Data Hackers qual a sua preferida?
+
+
+```{r}
+
+df %>%
+  make_bar(p32_prefered_data_hackers_initiative, reorder_labels = TRUE) +
+  labs(title = "Preferência pelas iniciativas \ndo Data Hackers")
+
+```
+
+
+## 33. Pergunta_33 (P33) = De quais outras formas que você costuma se atualizar no mundo dos dados?
+
+
+
+```{r}
+
+p_var <- "p33_"
+
+df %>%
+  make_multiple_long(p_var) %>%
+  make_bar(var = name, reorder_labels = TRUE) +
+  labs(title = "Plataformas utilizadas para \natualização sobre Data Science")
+
+```
+
+
+## 34. Pergunta_34 (P34) = Em quais dessas plataformas listadas abaixo você já iniciou/completou cursos na área de Data Science?
+
+
+```{r}
+
+p_var <- "p34_"
+
+df %>%
+  make_multiple_long(p_var) %>%
+  make_bar(var = name, reorder_labels = TRUE) +
+  labs(title = "Plataformas de cursos (iniciados ou completos)")
+
+```
+
+
+## 35. Pergunta_35 (P35) = Dentre as plataformas listadas abaixo qual foi a sua preferida para cursos de Data Science?
+
+
+```{r}
+
+p_var <- "p35_"
+
+df %>%
+  make_multiple_long(p_var) %>%
+  mutate(value = str_to_lower(value)) %>%
+  group_by(value) %>%
+  filter(n() > 50) %>%
+  make_bar(var = value, reorder_labels = TRUE) +
+  labs(
+    title = "Plataformas de curso preferidas",
+    subtitle = "Respostas que ocorreram 50 vezes ou mais"
+  )
+
+```
+
+
+## 36. Pergunta_36 (P36) = Você deseja participar do sorteio?
+
+
+```{r}
+
+df %>%
+  make_bar(p36_draw_participation, reorder_labels = TRUE) +
+  labs(title = "Desejo em participar do sorteio")
+
+
+```
+
+
+# Informações derivadas
+
+
+## 1. Derivado_1 (D1) = Macrorregião em que mora
+
+
+```{r}
+
+df %>%
+  make_bar(d1_living_macroregion, reorder_labels = TRUE) +
+  labs(title = "Residentes por macrorregião")
+
+```
+
+
+## 2. Derivado_2 (D2) = Macrorregião em que nasceu
+
+
+```{r}
+
+df %>%
+  make_bar(d2_origin_macroregion, reorder_labels = TRUE) +
+  labs(title = "Macrorregião de origem")
+
+```
+
+
+## 3. Derivado_3 (D3) = Área de formação anonimizada
+
+
+```{r}
+
+df %>%
+  make_bar(d3_anonymized_degree_area, reorder_labels = TRUE) +
+  labs(title = "Área de formação")
+
+```
+
+
+## 4. Derivado_4 (D4) = Setor de mercado anonimizado
+
+
+```{r}
+
+df %>%
+  make_bar(d4_anonymized_market_sector, reorder_labels = TRUE) +
+  labs(title = "Atuação por setor de mercado")
+
+```
+
+
+## 5. Derivado_5 (D5) = Nível de gerência anonimizado
+
+
+
+```{r}
+
+df %>%
+  make_bar(d5_anonymized_manager_level, reorder_labels = TRUE) +
+  labs(title = "Nível gerencial")
+
+```
+
+
+## 6. Derivado_6 (D6) = Cargo anonimizado
+
+
+```{r}
+
+df %>%
+  make_bar(d6_anonymized_role, reorder_labels = TRUE) +
+  labs(title = "Cargo de atuação")
+
+```
+
+# Continua...
+
+- [ ] Cruzar informações: mesmos gráficos com `fill`
+
+- [ ] Correlações
